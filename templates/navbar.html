@@ -1,0 +1,65 @@
+<style>
+    .navbar {
+        width: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 65px;
+        box-sizing: border-box;
+    }
+    .navbar .brand {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+        text-decoration: none;
+    }
+    .navbar .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+    .navbar .nav-link {
+        text-decoration: none;
+        color: #555;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+    .navbar .nav-link:hover {
+        color: #4A90E2;
+    }
+    .navbar .btn {
+        padding: 8px 18px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    .navbar .btn-primary {
+        background: linear-gradient(90deg, #4A90E2, #357ABD);
+        color: white;
+    }
+    .navbar .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+    }
+</style>
+
+<nav class="navbar">
+    <a href="{{ url_for('index') }}" class="brand">Personalized Diet recommendation</a>
+    <div class="nav-links">
+        {% if session['user'] %}
+            <!-- Links for logged-in users -->
+             <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+            <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ url_for('get_recommendation') }}" class="nav-link">Get Plan</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
+        {% else %}
+            <!-- Links for logged-out users -->
+            <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up</a>
+        {% endif %}
+    </div>
+</nav>

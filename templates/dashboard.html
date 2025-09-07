@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Dashboard{% endblock %}
+
+{% block head %}
+<style>
+    .dashboard-container {
+        width: 100%;
+        max-width: 800px;
+        text-align: center;
+    }
+    .dashboard-container h1 {
+        font-size: 36px;
+        color: #2c3e50;
+    }
+    .dashboard-container .welcome-msg {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 40px;
+    }
+    .action-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .action-card h3 {
+        margin-top: 0;
+        font-size: 24px;
+        color: #34495e;
+    }
+    .action-card p {
+        color: #7f8c8d;
+        margin-bottom: 25px;
+    }
+    .action-card .btn-action {
+        padding: 15px 40px;
+        font-size: 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        background: linear-gradient(90deg, #4A90E2, #357ABD);
+        color: white;
+        display: inline-block;
+    }
+     .action-card .btn-action:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Welcome, {{ username }}!</h1>
+    <p class="welcome-msg">Ready to take the next step in your health journey?</p>
+
+    <div class="action-card">
+        <h3>Get Your Personalized Plan</h3>
+        <p>Fill out our detailed questionnaire to generate a new diet and fitness recommendation based on your current stats and lifestyle.</p>
+        <a href="{{ url_for('get_recommendation') }}" class="btn-action">Start Now</a>
+    </div>
+</div>
+{% endblock %}

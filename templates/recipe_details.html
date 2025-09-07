@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block head %}
+<style>
+    .video-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+    .video-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    .video-header h1 {
+        font-size: 32px;
+        color: #2c3e50;
+    }
+    /* Responsive video wrapper */
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        border: 1px solid #e9ecef;
+    }
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .back-link {
+        display: inline-block;
+        text-align: center;
+        margin-top: 20px;
+        color: #4A90E2;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="video-container">
+    <div class="video-header">
+        <h1>{{ recipe.name }}</h1>
+    </div>
+    
+    <div class="video-wrapper">
+        <iframe 
+            src="https://www.youtube.com/embed/{{ recipe.video_id }}" 
+            title="YouTube video player for {{ recipe.name }}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="{{ url_for('recipe') }}" class="back-link">&larr; Back to All Recipes</a>
+    </div>
+</div>
+{% endblock %}
+

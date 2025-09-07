@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Personalized Plan{% endblock %}
+
+{% block head %}
+<!-- Feather Icons for a clean, modern look -->
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+    .result-container {
+        width: 100%;
+        max-width: 900px;
+    }
+    .result-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .result-header h1 {
+        font-size: 32px;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    .result-header p {
+        font-size: 18px;
+        color: #555;
+    }
+    .result-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns */
+        gap: 25px;
+    }
+    /* Special card that spans two columns */
+    .grid-col-span-2 {
+        grid-column: span 2;
+    }
+    .result-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        border-top: 4px solid #4A90E2;
+    }
+    .result-card.alert {
+        border-top-color: #f1c40f; /* Yellow for alerts */
+    }
+    .card-title {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Increased gap for better spacing */
+        font-size: 20px;
+        font-weight: 600;
+        color: #34495e;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    .result-card p, .result-card li {
+        color: #555;
+        line-height: 1.6;
+    }
+    /* Styling for the detailed diet plan */
+    .diet-details h4 {
+        margin-top: 20px;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    .diet-details h4:first-child {
+        margin-top: 0;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .result-grid {
+            grid-template-columns: 1fr; /* Single column on smaller screens */
+        }
+        .grid-col-span-2 {
+            grid-column: span 1; /* Reset span for single column layout */
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <div class="result-header">
+        <h1>Your Personalized Health Plan</h1>
+        <!-- The 'type' from the result is now the main title -->
+        <p><strong>{{ result.type }}</strong> plan, based on your age ({{ age }}) and BMI of <strong>{{ bmi }}</strong>.</p>
+    </div>
+
+    <!-- Display Allergy Refinements First if they exist -->
+    {% if result.refinements %}
+    <div class="result-card alert grid-col-span-2">
+        <h3 class="card-title"><i data-feather="alert-triangle"></i>Important Considerations</h3>
+        {% for item in result.refinements %}
+            <p>{{ item }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="result-grid">
+        <!-- Nutrient Focus Card -->
+        <div class="result-card">
+            <h3 class="card-title"><i data-feather="award"></i>Nutrient Focus</h3>
+            <p>{{ result.nutrient_focus }}</p>
+        </div>
+
+        <!-- Activity Plan Card -->
+        <div class="result-card">
+            <h3 class="card-title"><i data-feather="activity"></i>Activity Recommendation</h3>
+            <p>{{ result.activity }}</p>
+        </div>
+
+        <!-- Detailed Diet Plan Card -->
+        <div class="result-card grid-col-span-2">
+            <h3 class="card-title"><i data-feather="shopping-cart"></i>Dietary Plan</h3>
+            <div class="diet-details">
+                <h4>Vegetable Intake</h4>
+                <p>{{ result.vegetables }}</p>
+                
+                <h4>Fruit Intake</h4>
+                <p>{{ result.fruits }}</p>
+
+                <h4>Protein Intake</h4>
+                <p>{{ result.protein }}</p>
+
+                <h4>Carbohydrate Intake</h4>
+                <p>{{ result.carbs }}</p>
+            </div>
+        </div>
+
+        <!-- General Advice Card -->
+        <div class="result-card grid-col-span-2">
+            <h3 class="card-title"><i data-feather="info"></i>General Advice</h3>
+            <p>{{ result.advice }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- This script call is necessary to render the Feather icons -->
+<script>
+    feather.replace()
+</script>
+{% endblock %}
+

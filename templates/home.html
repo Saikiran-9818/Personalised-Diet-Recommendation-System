@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to Your Personalized Health Hub{% endblock %}
+
+{% block head %}
+<!-- Feather Icons for a clean, modern look -->
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+    .home-container {
+        width: 100%;
+        max-width: 1100px;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    
+    /* Hero Section Styling */
+    .hero-section {
+        margin-bottom: 60px;
+    }
+    .hero-section h1 {
+        font-size: 48px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+    .hero-section .subtitle {
+        font-size: 20px;
+        color: #555;
+        max-width: 700px;
+        margin: 0 auto 30px auto;
+        line-height: 1.6;
+    }
+    .btn-primary {
+        display: inline-block;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 50px; /* Pill shape */
+        background: linear-gradient(90deg, #4A90E2, #357ABD);
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.3s;
+        box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+    }
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(74, 144, 226, 0.4);
+    }
+
+    /* Features Grid Styling */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        text-align: left;
+    }
+    .feature-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        border-top: 4px solid #4A90E2;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #eaf2fb;
+        color: #4A90E2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .feature-card h3 {
+        font-size: 22px;
+        color: #34495e;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+    .feature-card p {
+        color: #555;
+        line-height: 1.7;
+        flex-grow: 1; /* Pushes the button to the bottom */
+    }
+    .btn-secondary {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 25px;
+        background-color: #4A90E2;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        align-self: flex-start; /* Aligns button to the left */
+        transition: background-color 0.3s;
+    }
+    .btn-secondary:hover {
+        background-color: #357ABD;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1>Unlock Your Personalized Health Potential</h1>
+        <p class="subtitle">
+            Get accurate diet plans based on your unique profile, find expert medical advice, and discover healthy recipes—all in one place.<br/>
+            </p><br><a href="{{ url_for('get_recommendation') }}" class="btn btn-primary">Create Your Diet Plan Now</a>
+        </p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-grid">
+        
+        <!-- Card 1: Personalized Diet Plan -->
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i data-feather="clipboard" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3>Personalized Diet Plans</h3>
+            <p>
+                Answer a few simple questions about your vitals and lifestyle, and our system will generate a detailed, scientifically-backed diet plan tailored specifically to you.
+            </p>
+            <a href="{{ url_for('get_recommendation') }}" class="btn btn-secondary">Generate Diet</a>
+        </div>
+
+        <!-- Card 2: Healthy Recipes -->
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i data-feather="youtube" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3>Healthy Recipe Ideas</h3>
+            <p>
+                Turn your diet plan into delicious meals. Browse our curated collection of recipe videos to find inspiration and learn how to prepare healthy food that you'll love.
+            </p>
+            <a href="{{ url_for('recipe') }}" class="btn btn-secondary">Watch Recipes</a>
+        </div>
+        
+        <!-- Card 3: Doctor Consultation -->
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i data-feather="shield" style="width: 28px; height: 28px;"></i>
+            </div>
+            <h3>Expert Doctor Consultation</h3>
+            <p>
+                Have specific health concerns? Find a qualified specialist from our network of professionals and book an appointment directly through our platform.
+            </p>
+            <a href="{{ url_for('doctor_info') }}" class="btn btn-secondary">Find a Doctor</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- This script call is necessary to render the Feather icons -->
+<script>
+    feather.replace()
+</script>
+{% endblock %}
+

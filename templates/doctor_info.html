@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Find a Specialist{% endblock %}
+
+{% block head %}
+<style>
+    .doctor-container {
+        width: 100%;
+        max-width: 1000px;
+    }
+    .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .page-header h1 {
+        font-size: 36px;
+        color: #2c3e50;
+    }
+    .page-header p {
+        font-size: 18px;
+        color: #555;
+    }
+    .doctor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+    .doctor-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        text-align: center;
+        padding: 25px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .doctor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .doctor-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 3px solid #e9ecef;
+    }
+    .doctor-card h3 {
+        margin: 0 0 5px 0;
+        font-size: 20px;
+        color: #34495e;
+    }
+    .doctor-card .specialty {
+        color: #4A90E2;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+    .doctor-card .btn-profile {
+        display: inline-block;
+        padding: 10px 25px;
+        background-color: #e9ecef;
+        color: #333;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    .doctor-card .btn-profile:hover {
+        background-color: #4A90E2;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="doctor-container">
+    <div class="page-header">
+        <h1>Find a Specialist</h1>
+        <p>Connect with experienced healthcare professionals tailored to your needs.</p>
+    </div>
+    <div class="doctor-grid">
+        <!-- This loop will create a card for each doctor in the list from app.py -->
+        {% for doctor in doctors %}
+        <div class="doctor-card">
+            <img src="{{ doctor.image }}" alt="Photo of {{ doctor.name }}">
+            <h3>{{ doctor.name }}</h3>
+            <p class="specialty">{{ doctor.specialty }}</p>
+            <!-- CORRECTED: This link now correctly uses the doctor's ID -->
+            <a href="{{ url_for('doctor_details', doctor_id=doctor.id) }}" class="btn-profile">View Profile</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

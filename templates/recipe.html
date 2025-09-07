@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Healthy Recipe Ideas{% endblock %}
+
+{% block head %}
+<!-- Feather Icons for a clean, modern look -->
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+    .page-container {
+        width: 100%;
+        max-width: 1100px;
+    }
+    .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .page-header h1 {
+        font-size: 36px;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
+    .page-header p {
+        font-size: 18px;
+        color: #555;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .recipe-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    .recipe-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        border-top: 4px solid #4A90E2;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s, box-shadow 0.3s;
+        overflow: hidden;
+    }
+    .recipe-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .recipe-card .card-content {
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .recipe-card h3 {
+        font-size: 20px;
+        color: #34495e;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .recipe-card p {
+        color: #555;
+        line-height: 1.6;
+        flex-grow: 1;
+    }
+    .btn-view-recipe {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4A90E2;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        align-self: flex-start;
+        transition: background-color 0.3s;
+    }
+    .btn-view-recipe:hover {
+        background-color: #357ABD;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div class="page-header">
+        <h1>Healthy Recipe Ideas</h1>
+        <p>Discover delicious and easy-to-make meals that align with a healthy lifestyle. Click on any recipe to watch a step-by-step video guide.</p>
+    </div>
+
+    <div class="recipe-grid">
+        {% for id, recipe_item in recipes.items() %}
+        <div class="recipe-card">
+            <div class="card-content">
+                <h3>{{ recipe_item.name }}</h3>
+                <p>{{ recipe_item.description }}</p>
+                <a href="{{ url_for('recipe_details', recipe_id=id) }}" class="btn-view-recipe">Watch Recipe Video</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

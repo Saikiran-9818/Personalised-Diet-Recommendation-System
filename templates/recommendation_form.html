@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Personalized Health Plan</title>
+    <!-- Google Fonts for a modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* A softer, cooler background */
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Main Form Container */
+        .form-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 20px;
+        }
+
+        /* Card-like Form Styling */
+        .form-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 30px 40px;
+            border: 1px solid #e9ecef;
+            overflow: hidden; /* Important for step transitions */
+        }
+
+        .form-card h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-card .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        /* --- NEW PROGRESS BAR STYLES --- */
+        .progress-container {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .progress-steps {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .progress-steps .step {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            background-color: #e9ecef; /* Inactive color */
+            color: #adb5bd; /* Inactive text color */
+            font-weight: 600;
+            font-size: 15px;
+            position: relative;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* The arrow shape on the right */
+        .progress-steps .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 28px solid transparent; /* Half of height */
+            border-bottom: 28px solid transparent; /* Half of height */
+            border-left: 20px solid #e9ecef; /* Arrow color and size */
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+        /* The cutout shape on the left */
+        .progress-steps .step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-top: 28px solid transparent;
+            border-bottom: 28px solid transparent;
+            border-left: 20px solid #ffffff; /* Must match the card background */
+            z-index: 1;
+        }
+        .progress-steps .step:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+        .progress-steps .step:first-child::before {
+            display: none; /* No cutout for the first step */
+        }
+        .progress-steps .step:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Active State styling */
+        .progress-steps .step.active {
+            background-color: #4A90E2;
+            color: #fff;
+        }
+        .progress-steps .step.active:not(:last-child)::after {
+            border-left-color: #4A90E2;
+        }
+
+        /* Number circle inside the step */
+        .progress-steps .step span {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            border-radius: 50%;
+            background-color: rgba(0,0,0,0.1);
+            color: inherit;
+            margin-right: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .progress-steps .step.active span {
+            background-color: #fff;
+            color: #4A90E2;
+        }
+        /* --- END OF PROGRESS BAR STYLES --- */
+
+
+        /* Form Steps */
+        .form-step {
+            display: none; /* Hide all steps by default */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .form-step.active {
+            display: block; /* Show the active step */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input Group Styling */
+        .input-group {
+            margin-bottom: 22px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #34495e;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+        .input-group input[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        .input-group .range-label {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .input-group #stress-value {
+            font-weight: 600; color: #4A90E2;
+        }
+
+        /* Navigation Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-prev {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        .btn-next {
+            background: linear-gradient(90deg, #4A90E2, #357ABD);
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-card">
+            <h2>Your Personalized Health Plan</h2>
+            <p class="subtitle">Complete the steps below for your custom recommendation.</p>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <ul class="progress-steps">
+                    <li class="step active" data-step="1"><span>1</span> Vitals</li>
+                    <li class="step" data-step="2"><span>2</span> Lifestyle</li>
+                    <li class="step" data-step="3"><span>3</span> Health</li>
+                </ul>
+            </div>
+
+            <form id="health-form" action="/predict" method="POST">
+                
+                <!-- Step 1: Core Vitals -->
+                <div class="form-step active" data-step="1">
+                    <div class="input-group">
+                        <label for="age">Age:</label>
+                        <input id="age" name="age" placeholder="e.g., 35" required type="number" min="1" />
+                    </div>
+                    <div class="input-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="Male" selected>Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="weight">Weight (kg):</label>
+                        <input id="weight" name="weight" oninput="calculateBMI()" placeholder="e.g., 75" required type="number" step="0.1" />
+                    </div>
+                    <div class="input-group">
+                        <label for="height">Height (cm):</label>
+                        <input id="height" name="height" oninput="calculateBMI()" placeholder="e.g., 180" required type="number" step="0.1" />
+                    </div>
+                    <div class="input-group">
+                        <label for="bmi">Your Calculated BMI:</label>
+                        <input id="bmi" name="bmi" readonly placeholder="Calculated automatically" type="text" />
+                    </div>
+                </div>
+
+                <!-- Step 2: Lifestyle -->
+                <div class="form-step" data-step="2">
+                    <div class="input-group">
+                        <label for="occupation">Occupation:</label>
+                        <select id="occupation" name="occupation" required>
+                            <option value="None">None</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Engineer" selected>Engineer</option>
+                            <option value="Accountant">Accountant</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Nurse">Nurse</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Salesperson">Salesperson</option>
+                            <option value="Lawyer">Lawyer</option>
+                            <option value="Scientist">Scientist</option>
+                            <option value="Sales Representative">Sales Representative</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="activity">Physical Activity Level:</label>
+                        <select id="activity" name="activity" required>
+                            <option value="Sedentary">Sedentary (little to no exercise)</option>
+                            <option value="Moderate" selected>Moderate (3-5 days/week)</option>
+                            <option value="Active">Active (6-7 days a week)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="sleep_duration">Sleep Duration (hours per night):</label>
+                        <input id="sleep_duration" name="sleep_duration" placeholder="e.g., 7.5" required type="number" step="0.5" />
+                    </div>
+                </div>
+
+                <!-- Step 3: Health Indicators -->
+                <div class="form-step" data-step="3">
+                    <div class="input-group">
+                        <label class="range-label" for="stress_level">
+                            <span>Stress Level (0=Low, 10=High):</span>
+                            <span id="stress-value">5</span>
+                        </label>
+                        <input id="stress_level" name="stress_level" type="range" min="0" max="10" value="5" oninput="document.getElementById('stress-value').textContent = this.value" />
+                    </div>
+                    <div class="input-group">
+                        <label for="blood_pressure">Blood Pressure (mmHg) (Optional):</label>
+                        <input id="blood_pressure" name="blood_pressure" placeholder="e.g., 120/80" type="text" />
+                    </div>
+                    <div class="input-group">
+                        <label for="alcohol_consumption">Alcohol Consumption:</label>
+                        <select id="alcohol_consumption" name="alcohol_consumption" required>
+                            <option value="None">None</option>
+                            <option value="Low">Low</option>
+                            <option value="Moderate" selected>Moderate</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="allergies">List any food allergies (optional):</label>
+                        <input id="allergies" name="allergies" placeholder="e.g., Peanuts, Shellfish" type="text" />
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-prev" id="prevBtn" style="display: none;">Previous</button>
+                    <button type="button" class="btn btn-next" id="nextBtn">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const form = document.getElementById('health-form');
+            const steps = document.querySelectorAll('.form-step');
+            const progressSteps = document.querySelectorAll('.progress-steps .step');
+            let currentStep = 1;
+
+            const showStep = (stepNumber) => {
+                steps.forEach(step => step.classList.remove('active'));
+                document.querySelector(`.form-step[data-step="${stepNumber}"]`).classList.add('active');
+
+                progressSteps.forEach(step => {
+                    if (parseInt(step.dataset.step) <= stepNumber) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
+                });
+
+                prevBtn.style.display = stepNumber > 1 ? 'block' : 'none';
+                nextBtn.textContent = stepNumber === steps.length ? 'Generate My Plan' : 'Next';
+            };
+
+            const validateStep = (stepNumber) => {
+                const currentStepFields = document.querySelectorAll(`.form-step[data-step="${stepNumber}"] [required]`);
+                let isValid = true;
+                currentStepFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.style.borderColor = 'red';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '#ced4da';
+                    }
+                });
+                return isValid;
+            };
+
+            nextBtn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    if (currentStep < steps.length) {
+                        currentStep++;
+                        showStep(currentStep);
+                    } else {
+                        form.submit(); // Submit the form on the last step
+                    }
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+
+            // Initial setup
+            showStep(currentStep);
+        });
+
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const bmiField = document.getElementById('bmi');
+
+            if (weight > 0 && height > 0) {
+                const bmi = weight / ((height / 100) ** 2);
+                bmiField.value = bmi.toFixed(2);
+            } else {
+                bmiField.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
+

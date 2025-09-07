@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+<style>
+    .auth-card {
+        width: 100%;
+        max-width: 400px;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+    .auth-card h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #2c3e50;
+    }
+    .input-group { margin-bottom: 20px; }
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #4A90E2, #357ABD);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .auth-card .switch-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+    .auth-card .switch-link a {
+        color: #4A90E2;
+        font-weight: 500;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+    <h2>Welcome Back!</h2>
+    <form action="{{ url_for('login') }}" method="POST">
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn-submit">Login</button>
+    </form>
+    <p class="switch-link">
+        Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a>
+    </p>
+</div>
+{% endblock %}
