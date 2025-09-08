@@ -3,7 +3,7 @@
 {% block title %}Your Personalized Plan{% endblock %}
 
 {% block head %}
-<!-- Feather Icons for a clean, modern look -->
+
 <script src="https://unpkg.com/feather-icons"></script>
 <style>
     .result-container {
@@ -25,10 +25,9 @@
     }
     .result-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Two columns */
+        grid-template-columns: 1fr 1fr; 
         gap: 25px;
     }
-    /* Special card that spans two columns */
     .grid-col-span-2 {
         grid-column: span 2;
     }
@@ -40,12 +39,12 @@
         border-top: 4px solid #4A90E2;
     }
     .result-card.alert {
-        border-top-color: #f1c40f; /* Yellow for alerts */
+        border-top-color: #f1c40f; 
     }
     .card-title {
         display: flex;
         align-items: center;
-        gap: 12px; /* Increased gap for better spacing */
+        gap: 12px; 
         font-size: 20px;
         font-weight: 600;
         color: #34495e;
@@ -56,7 +55,6 @@
         color: #555;
         line-height: 1.6;
     }
-    /* Styling for the detailed diet plan */
     .diet-details h4 {
         margin-top: 20px;
         margin-bottom: 8px;
@@ -67,13 +65,12 @@
         margin-top: 0;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
         .result-grid {
-            grid-template-columns: 1fr; /* Single column on smaller screens */
+            grid-template-columns: 1fr; 
         }
         .grid-col-span-2 {
-            grid-column: span 1; /* Reset span for single column layout */
+            grid-column: span 1; 
         }
     }
 </style>
@@ -83,11 +80,10 @@
 <div class="result-container">
     <div class="result-header">
         <h1>Your Personalized Health Plan</h1>
-        <!-- The 'type' from the result is now the main title -->
+
         <p><strong>{{ result.type }}</strong> plan, based on your age ({{ age }}) and BMI of <strong>{{ bmi }}</strong>.</p>
     </div>
 
-    <!-- Display Allergy Refinements First if they exist -->
     {% if result.refinements %}
     <div class="result-card alert grid-col-span-2">
         <h3 class="card-title"><i data-feather="alert-triangle"></i>Important Considerations</h3>
@@ -95,22 +91,23 @@
             <p>{{ item }}</p>
         {% endfor %}
     </div>
+    <br/>
     {% endif %}
 
     <div class="result-grid">
-        <!-- Nutrient Focus Card -->
+ 
         <div class="result-card">
             <h3 class="card-title"><i data-feather="award"></i>Nutrient Focus</h3>
             <p>{{ result.nutrient_focus }}</p>
         </div>
 
-        <!-- Activity Plan Card -->
+      
         <div class="result-card">
             <h3 class="card-title"><i data-feather="activity"></i>Activity Recommendation</h3>
             <p>{{ result.activity }}</p>
         </div>
 
-        <!-- Detailed Diet Plan Card -->
+ 
         <div class="result-card grid-col-span-2">
             <h3 class="card-title"><i data-feather="shopping-cart"></i>Dietary Plan</h3>
             <div class="diet-details">
@@ -127,8 +124,6 @@
                 <p>{{ result.carbs }}</p>
             </div>
         </div>
-
-        <!-- General Advice Card -->
         <div class="result-card grid-col-span-2">
             <h3 class="card-title"><i data-feather="info"></i>General Advice</h3>
             <p>{{ result.advice }}</p>
@@ -136,7 +131,7 @@
     </div>
 </div>
 
-<!-- This script call is necessary to render the Feather icons -->
+
 <script>
     feather.replace()
 </script>

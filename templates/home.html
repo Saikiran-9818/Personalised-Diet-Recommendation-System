@@ -3,7 +3,6 @@
 {% block title %}Welcome to Your Personalized Health Hub{% endblock %}
 
 {% block head %}
-<!-- Feather Icons for a clean, modern look -->
 <script src="https://unpkg.com/feather-icons"></script>
 <style>
     .home-container {
@@ -12,8 +11,6 @@
         text-align: center;
         padding: 40px 20px;
     }
-    
-    /* Hero Section Styling */
     .hero-section {
         margin-bottom: 60px;
     }
@@ -34,7 +31,7 @@
         display: inline-block;
         padding: 15px 40px;
         border: none;
-        border-radius: 50px; /* Pill shape */
+        border-radius: 50px;
         background: linear-gradient(90deg, #4A90E2, #357ABD);
         color: white;
         font-size: 18px;
@@ -48,8 +45,6 @@
         transform: translateY(-3px);
         box-shadow: 0 12px 30px rgba(74, 144, 226, 0.4);
     }
-
-    /* Features Grid Styling */
     .features-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -90,7 +85,7 @@
     .feature-card p {
         color: #555;
         line-height: 1.7;
-        flex-grow: 1; /* Pushes the button to the bottom */
+        flex-grow: 1;
     }
     .btn-secondary {
         display: inline-block;
@@ -101,7 +96,7 @@
         text-decoration: none;
         border-radius: 8px;
         font-weight: 500;
-        align-self: flex-start; /* Aligns button to the left */
+        align-self: flex-start;
         transition: background-color 0.3s;
     }
     .btn-secondary:hover {
@@ -112,8 +107,6 @@
 
 {% block content %}
 <div class="home-container">
-    
-    <!-- Hero Section -->
     <div class="hero-section">
         <h1>Unlock Your Personalized Health Potential</h1>
         <p class="subtitle">
@@ -121,11 +114,7 @@
             </p><br><a href="{{ url_for('get_recommendation') }}" class="btn btn-primary">Create Your Diet Plan Now</a>
         </p>
     </div>
-
-    <!-- Features Section -->
     <div class="features-grid">
-        
-        <!-- Card 1: Personalized Diet Plan -->
         <div class="feature-card">
             <div class="feature-icon">
                 <i data-feather="clipboard" style="width: 28px; height: 28px;"></i>
@@ -136,8 +125,6 @@
             </p>
             <a href="{{ url_for('get_recommendation') }}" class="btn btn-secondary">Generate Diet</a>
         </div>
-
-        <!-- Card 2: Healthy Recipes -->
         <div class="feature-card">
             <div class="feature-icon">
                 <i data-feather="youtube" style="width: 28px; height: 28px;"></i>
@@ -148,8 +135,6 @@
             </p>
             <a href="{{ url_for('recipe') }}" class="btn btn-secondary">Watch Recipes</a>
         </div>
-        
-        <!-- Card 3: Doctor Consultation -->
         <div class="feature-card">
             <div class="feature-icon">
                 <i data-feather="shield" style="width: 28px; height: 28px;"></i>
@@ -163,8 +148,6 @@
 
     </div>
 </div>
-
-<!-- This script call is necessary to render the Feather icons -->
 <script>
     feather.replace()
 </script>

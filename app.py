@@ -8,19 +8,15 @@ import os
 app = Flask(__name__)
 app.secret_key = "a_very_secure_secret_key"
 
-# --- 1. Load All Model & Data Artifacts ---
-# This version loads BOTH the ML model components and the food database.
+
 try:
     print("🔄 Loading application artifacts...")
-    # Load the machine learning model and its components
     model = joblib.load("diet_model.pkl")
     scaler = joblib.load("scaler.pkl")
     label_encoders = joblib.load("label_encoders.pkl")
     column_order = joblib.load("column_order.pkl")
-    
-    # Load the detailed food recommendation knowledge base
     food_db_path = os.path.join("datasets", "Raw_dataset", "food_recommendations.csv")
-    food_df = pd.read_csv(food_db_path) # Using standard comma separator now
+    food_df = pd.read_csv(food_db_path) 
     
     print("✅ All artifacts loaded successfully.")
     artifacts_loaded = True
@@ -30,7 +26,6 @@ except FileNotFoundError as e:
     artifacts_loaded = False
 
 
-# --- 2. Database and User Authentication (Unchanged) ---
 def init_db():
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
@@ -57,7 +52,6 @@ def init_db():
 
 init_db()
 
-# --- Standard Routes (Unchanged) ---
 
 @app.route("/")
 def index():
@@ -121,15 +115,12 @@ def get_recommendation():
     return render_template("recommendation_form.html")
 
 
-# --- 3. Core Hybrid Prediction & Recommendation Logic ---
 @app.route("/predict", methods=["POST"])
 def predict():
     if not artifacts_loaded:
         flash("❌ Server Error: Application files are not loaded. Cannot make a recommendation.", "danger")
         return redirect(url_for("get_recommendation"))
-        
     try:
-        # --- a. Get User Inputs ---
         user_data = {
             'Age': float(request.form.get("age")),
             'Gender': request.form.get("gender"),
@@ -142,14 +133,11 @@ def predict():
             'Alcohol_Consumption': request.form.get("alcohol_consumption"),
         }
         allergies = request.form.get("allergies")
-
-        # --- b. Pre-process Data for Model ---
         height_m = user_data['Height_cm'] / 100
         if height_m <= 0:
             flash("⚠️ Height must be a positive number.", "danger")
             return redirect(url_for("get_recommendation"))
         user_data['BMI'] = round(user_data['Weight_kg'] / (height_m ** 2), 2)
-
         prediction_input = user_data.copy()
         for col, le in label_encoders.items():
             if col in prediction_input:
@@ -157,23 +145,16 @@ def predict():
                     prediction_input[col] = le.transform([str(prediction_input[col])])[0]
                 except ValueError:
                     prediction_input[col] = 0 
-        
-        # --- c. Create DataFrame, Scale, and Predict Category ---
         input_df = pd.DataFrame([prediction_input], columns=column_order)
         input_scaled = scaler.transform(input_df)
         predicted_category = model.predict(input_scaled)[0]
-
-        # --- d. Look Up Detailed Plan from Food Database ---
         plan_details = food_df[food_df['Diet_Recommendation'] == predicted_category]
 
         if plan_details.empty:
             flash("Could not find a detailed plan for the predicted category.", "warning")
-            # Fallback to a general plan
             plan_details = food_df[food_df['Diet_Recommendation'] == "Adult - Healthy Weight"].iloc[0]
         else:
             plan_details = plan_details.iloc[0]
-
-        # --- e. Prepare Final Result for Template ---
         final_result = {
             'type': predicted_category,
             'nutrient_focus': plan_details.get('Nutrient_Focus'),
@@ -191,8 +172,6 @@ def predict():
         print(f"❌ Prediction Error: {e}")
         flash("⚠️ An error occurred during prediction. Please check your inputs.", "danger")
         return redirect(url_for("get_recommendation"))
-
-# --- 4.Doctor & Appointment Feature ---
 @app.route("/doctor_info")
 def doctor_info():
     doctors = [
@@ -234,8 +213,6 @@ def book_appointment():
     conn.close()
     flash('✅ Your appointment has been successfully booked!', 'success')
     return redirect(url_for('doctor_info'))
-
-# --- 5. Recipe Feature (Unchanged) ---
 @app.route("/recipe")
 def recipe():
     recipes_data = {
@@ -264,7 +241,6 @@ def recipe_details(recipe_id):
         return redirect(url_for('recipe'))
     return render_template("recipe_details.html", recipe=recipe)
 
-# --- 6. Helper Functions & App Execution ---
 def refine_with_allergies(base_result, allergies: str):
     if allergies and allergies.strip():
         allergy_list = [item.strip().title() for item in allergies.split(',')]

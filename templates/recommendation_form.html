@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Your Personalized Health Plan</title>
-    <!-- Google Fonts for a modern look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* General Body Styling */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* A softer, cooler background */
+            background-color: #f0f4f8; 
             margin: 0;
             padding: 20px;
             color: #333;
@@ -21,22 +19,18 @@
             align-items: center;
             min-height: 100vh;
         }
-
-        /* Main Form Container */
         .form-container {
             width: 100%;
             max-width: 650px;
             margin: 20px;
         }
-
-        /* Card-like Form Styling */
         .form-card {
             background-color: #ffffff;
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             padding: 30px 40px;
             border: 1px solid #e9ecef;
-            overflow: hidden; /* Important for step transitions */
+            overflow: hidden; 
         }
 
         .form-card h2 {
@@ -51,8 +45,6 @@
             color: #7f8c8d;
             margin-bottom: 30px;
         }
-        
-        /* --- NEW PROGRESS BAR STYLES --- */
         .progress-container {
             width: 100%;
             margin-bottom: 40px;
@@ -67,8 +59,8 @@
             flex: 1;
             text-align: center;
             padding: 15px 10px;
-            background-color: #e9ecef; /* Inactive color */
-            color: #adb5bd; /* Inactive text color */
+            background-color: #e9ecef; 
+            color: #adb5bd; 
             font-weight: 600;
             font-size: 15px;
             position: relative;
@@ -77,7 +69,6 @@
             align-items: center;
             justify-content: center;
         }
-        /* The arrow shape on the right */
         .progress-steps .step:not(:last-child)::after {
             content: '';
             position: absolute;
@@ -85,13 +76,12 @@
             top: 0;
             width: 0;
             height: 0;
-            border-top: 28px solid transparent; /* Half of height */
-            border-bottom: 28px solid transparent; /* Half of height */
-            border-left: 20px solid #e9ecef; /* Arrow color and size */
+            border-top: 28px solid transparent; 
+            border-bottom: 28px solid transparent; 
+            border-left: 20px solid #e9ecef; 
             z-index: 2;
             transition: all 0.4s ease;
         }
-        /* The cutout shape on the left */
         .progress-steps .step::before {
             content: '';
             position: absolute;
@@ -101,7 +91,7 @@
             height: 0;
             border-top: 28px solid transparent;
             border-bottom: 28px solid transparent;
-            border-left: 20px solid #ffffff; /* Must match the card background */
+            border-left: 20px solid #ffffff;
             z-index: 1;
         }
         .progress-steps .step:first-child {
@@ -109,14 +99,12 @@
             border-bottom-left-radius: 8px;
         }
         .progress-steps .step:first-child::before {
-            display: none; /* No cutout for the first step */
+            display: none; 
         }
         .progress-steps .step:last-child {
             border-top-right-radius: 8px;
             border-bottom-right-radius: 8px;
         }
-
-        /* Active State styling */
         .progress-steps .step.active {
             background-color: #4A90E2;
             color: #fff;
@@ -124,8 +112,6 @@
         .progress-steps .step.active:not(:last-child)::after {
             border-left-color: #4A90E2;
         }
-
-        /* Number circle inside the step */
         .progress-steps .step span {
             display: inline-block;
             width: 24px;
@@ -142,23 +128,19 @@
             background-color: #fff;
             color: #4A90E2;
         }
-        /* --- END OF PROGRESS BAR STYLES --- */
 
-
-        /* Form Steps */
         .form-step {
-            display: none; /* Hide all steps by default */
+            display: none; 
             animation: fadeIn 0.5s ease-in-out;
         }
         .form-step.active {
-            display: block; /* Show the active step */
+            display: block; 
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Input Group Styling */
         .input-group {
             margin-bottom: 22px;
         }
@@ -194,7 +176,6 @@
             font-weight: 600; color: #4A90E2;
         }
 
-        /* Navigation Buttons */
         .btn-group {
             display: flex;
             justify-content: space-between;
@@ -231,7 +212,6 @@
             <h2>Your Personalized Health Plan</h2>
             <p class="subtitle">Complete the steps below for your custom recommendation.</p>
             
-            <!-- Progress Bar -->
             <div class="progress-container">
                 <ul class="progress-steps">
                     <li class="step active" data-step="1"><span>1</span> Vitals</li>
@@ -241,8 +221,7 @@
             </div>
 
             <form id="health-form" action="/predict" method="POST">
-                
-                <!-- Step 1: Core Vitals -->
+
                 <div class="form-step active" data-step="1">
                     <div class="input-group">
                         <label for="age">Age:</label>
@@ -268,8 +247,6 @@
                         <input id="bmi" name="bmi" readonly placeholder="Calculated automatically" type="text" />
                     </div>
                 </div>
-
-                <!-- Step 2: Lifestyle -->
                 <div class="form-step" data-step="2">
                     <div class="input-group">
                         <label for="occupation">Occupation:</label>
@@ -300,8 +277,6 @@
                         <input id="sleep_duration" name="sleep_duration" placeholder="e.g., 7.5" required type="number" step="0.5" />
                     </div>
                 </div>
-
-                <!-- Step 3: Health Indicators -->
                 <div class="form-step" data-step="3">
                     <div class="input-group">
                         <label class="range-label" for="stress_level">
@@ -328,8 +303,6 @@
                         <input id="allergies" name="allergies" placeholder="e.g., Peanuts, Shellfish" type="text" />
                     </div>
                 </div>
-
-                <!-- Navigation -->
                 <div class="btn-group">
                     <button type="button" class="btn btn-prev" id="prevBtn" style="display: none;">Previous</button>
                     <button type="button" class="btn btn-next" id="nextBtn">Next</button>
@@ -383,7 +356,7 @@
                         currentStep++;
                         showStep(currentStep);
                     } else {
-                        form.submit(); // Submit the form on the last step
+                        form.submit();
                     }
                 }
             });
@@ -395,7 +368,6 @@
                 }
             });
 
-            // Initial setup
             showStep(currentStep);
         });
 

@@ -61,7 +61,6 @@
         color: #34495e;
         font-size: 24px;
     }
-    /* Form Styles */
     .input-group { margin-bottom: 15px; }
     .input-group label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; }
     .input-group input, .input-group select {
@@ -109,7 +108,6 @@
     <div class="profile-main">
         <h3>Book an Appointment</h3>
         <form action="{{ url_for('book_appointment') }}" method="POST">
-            <!-- This hidden input is crucial for telling the server which doctor is being booked -->
             <input type="hidden" name="doctor_name" value="{{ doctor.name }}">
             
             <div class="input-group">

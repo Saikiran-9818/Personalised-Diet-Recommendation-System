@@ -51,13 +51,11 @@
     <a href="{{ url_for('index') }}" class="brand">Personalized Diet recommendation</a>
     <div class="nav-links">
         {% if session['user'] %}
-            <!-- Links for logged-in users -->
              <a href="{{ url_for('home') }}" class="nav-link">Home</a>
             <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
             <a href="{{ url_for('get_recommendation') }}" class="nav-link">Get Plan</a>
             <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
         {% else %}
-            <!-- Links for logged-out users -->
             <a href="{{ url_for('login') }}" class="nav-link">Login</a>
             <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up</a>
         {% endif %}
